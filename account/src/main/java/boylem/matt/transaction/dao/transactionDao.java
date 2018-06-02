@@ -3,9 +3,10 @@ package boylem.matt.transaction.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import boylem.matt.transaction.domain.Account;
+import boylem.matt.transaction.domain.Transaction;
 
-public interface transactionDao extends JpaRepository<Account, Long> {
+public interface transactionDao extends JpaRepository<Transaction, Long> {
 
-	Account findById(Long accId);
+	Transaction findById(Long transactionId);
 
 }
