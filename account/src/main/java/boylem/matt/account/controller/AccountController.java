@@ -3,6 +3,7 @@ package boylem.matt.account.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,7 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/balance", method = RequestMethod.POST)
-	public Long postBalance(@Valid @RequestBody Deposit deposit) {
+	public ResponseEntity<?> postBalance(@Valid @RequestBody Deposit deposit) {
 		return accountService.deposit(deposit);
 	}
 

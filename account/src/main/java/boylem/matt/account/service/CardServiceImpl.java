@@ -30,7 +30,7 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public String freezeCard(Long accountId, Long cardId) {
+	public String freezeCard(Long cardId) {
 		Card card = cardDao.findOne(cardId);
 		card.setCardStatus(CardStatus.FROZEN);
 		cardDao.save(card);
@@ -38,11 +38,11 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public String closeCard(Long accountId, Long cardId) {
+	public String closeCard(Long cardId) {
 		Card card = cardDao.findOne(cardId);
 		card.setCardStatus(CardStatus.DEACTIVATED);
 		cardDao.save(card);
-		return "successfully Frozen";
+		return "successfully Closed Account";
 	}
 
 }

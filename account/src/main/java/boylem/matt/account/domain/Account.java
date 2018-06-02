@@ -80,4 +80,9 @@ public class Account {
 		this.availableBalance = availableBalance;
 	}
 
+	public String toString() {
+		return "Account [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", balance=" + balance
+				+ ", availableBalance=" + availableBalance + "]";
+	}
+
 }

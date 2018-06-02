@@ -6,8 +6,8 @@ public interface CardService {
 
 	Card createCard(Long accId);
 
-	String freezeCard(Long accountId, Long cardId);
+	String freezeCard(Long cardId);
 
-	String closeCard(Long accountId, Long cardId);
+	String closeCard(Long cardId);
 
 }
