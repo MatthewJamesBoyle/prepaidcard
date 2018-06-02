@@ -1,4 +1,4 @@
-package boylem.matt.account.controller;
+package boylem.matt.transaction.controller;
 
 import javax.validation.Valid;
 
@@ -10,19 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import boylem.matt.account.dao.AccountDao;
-import boylem.matt.account.domain.Account;
-import boylem.matt.account.domain.Deposit;
-import boylem.matt.account.service.AccountService;
+import boylem.matt.transaction.dao.transactionDao;
+import boylem.matt.transaction.domain.Account;
+import boylem.matt.transaction.domain.Deposit;
+import boylem.matt.transaction.service.AccountService;
 
 @RestController
-public class AccountController {
+public class TransactionController {
 
 	@Autowired
 	AccountService accountService;
-
-	@Autowired
-	AccountDao accountDao;
 
 	@RequestMapping(value = "/ping", method = RequestMethod.GET)
 	public String ping() {
@@ -30,7 +27,7 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/balance/{accountNumber}", method = RequestMethod.GET)
-	public Long getBalance(@PathVariable Long accountNumber) {
+	public ResponseEntity<?> getBalance(@PathVariable Long accountNumber) {
 		return accountService.getBalance(accountNumber);
 	}
 
@@ -40,8 +37,8 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/account/create", method = RequestMethod.POST)
-	public Account createAccount(@Valid @RequestBody Account newAcc) {
-		return accountDao.save(newAcc);
+	public ResponseEntity<?> createAccount(@Valid @RequestBody Account newAcc) {
+		return accountService.create(newAcc);
 	}
 
 }
