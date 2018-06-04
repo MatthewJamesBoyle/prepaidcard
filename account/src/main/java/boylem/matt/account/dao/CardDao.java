@@ -5,7 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import boylem.matt.account.domain.Card;
 
 public interface CardDao extends JpaRepository<Card, Long> {
-	
-	 Card save(Card card);
 
 }

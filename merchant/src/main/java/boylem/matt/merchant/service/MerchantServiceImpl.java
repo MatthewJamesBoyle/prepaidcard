@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import boylem.matt.merchant.dao.MerchantDao;
 import boylem.matt.merchant.domain.Merchant;
+import boylem.matt.merchant.exception.MerchantCreationException;
 import utils.ErrorType;
 
 @Service
@@ -15,15 +16,14 @@ public class MerchantServiceImpl implements MerchantService {
 	@Autowired
 	MerchantDao merchantDao;
 
-	public ResponseEntity<?> create(Merchant merchant) {
+	public Merchant create(Merchant merchant) throws MerchantCreationException {
 		if (merchant == null) {
-			return new ResponseEntity<ErrorType>(new ErrorType("ERROR: Could not create a Merchant."),
-					HttpStatus.BAD_REQUEST);
+			throw new MerchantCreationException();
 		}
 
 		merchantDao.save(merchant);
 
-		return new ResponseEntity<Merchant>(merchant, HttpStatus.OK);
+		return merchant;
 	}
 
 }

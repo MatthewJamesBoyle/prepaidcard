@@ -3,8 +3,9 @@ package boylem.matt.transaction.service;
 import org.springframework.http.ResponseEntity;
 
 import boylem.matt.transaction.domain.Transaction;
+import boylem.matt.transaction.exception.TransactionServiceException;
 
 public interface TransactionService {
 
-	ResponseEntity<?> create(Transaction transaction);
+	Transaction create(Transaction transaction) throws TransactionServiceException;
 }

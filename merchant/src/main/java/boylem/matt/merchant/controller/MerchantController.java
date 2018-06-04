@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import boylem.matt.merchant.domain.Merchant;
+import boylem.matt.merchant.exception.MerchantCreationException;
 import boylem.matt.merchant.service.MerchantService;
 
 @RestController
@@ -21,7 +22,7 @@ public class MerchantController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public ResponseEntity<?> createTransaction(Merchant merchant) {
+	public Merchant createTransaction(Merchant merchant) throws MerchantCreationException {
 		return merchantService.create(merchant);
 	}
 

@@ -10,6 +10,8 @@ import boylem.matt.account.dao.CardDao;
 import boylem.matt.account.domain.Account;
 import boylem.matt.account.domain.Card;
 import boylem.matt.account.domain.CardStatus;
+import boylem.matt.account.exception.AccountNotFoundException;
+import boylem.matt.account.exception.CardNotFoundException;
 
 @Service
 public class CardServiceImpl implements CardService {
@@ -20,8 +22,11 @@ public class CardServiceImpl implements CardService {
 	CardDao cardDao;
 
 	@Override
-	public Card createCard(Long accId) {
+	public Card createCard(Long accId) throws CardNotFoundException {
 		Account account = accountDao.findById(accId);
+		if (account == null) {
+			throw new CardNotFoundException(accId);
+		}
 		Date expiryDate = new Date();
 		expiryDate.setYear(expiryDate.getYear());
 		Card card = new Card(new Date(), expiryDate, 12345678L, account, CardStatus.ACTIVE);
@@ -30,19 +35,25 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public String freezeCard(Long cardId) {
+	public Card freezeCard(Long cardId) throws CardNotFoundException {
 		Card card = cardDao.findOne(cardId);
+		if (card == null) {
+			throw new CardNotFoundException(cardId);
+		}
 		card.setCardStatus(CardStatus.FROZEN);
 		cardDao.save(card);
-		return "successfully Frozen";
+		return card;
 	}
 
 	@Override
-	public String closeCard(Long cardId) {
+	public Card closeCard(Long cardId) throws CardNotFoundException {
 		Card card = cardDao.findOne(cardId);
+		if (card == null) {
+			throw new CardNotFoundException(cardId);
+		}
 		card.setCardStatus(CardStatus.DEACTIVATED);
 		cardDao.save(card);
-		return "successfully Closed Account";
+		return card;
 	}
 
 }

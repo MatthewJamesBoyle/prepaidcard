@@ -16,26 +16,21 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.NaturalId;
 
-
 public class Card {
-
 
 	private Long id;
 
 	private Date startDate;
 
-
 	private Date expiryDate;
 
 	private Long cardNumber;
 
-
 	private Account account;
 
-	
 	private CardStatus cardStatus;
 
-	protected Card() {
+	public Card() {
 	}
 
 	public Card(Date startDate, Date expiryDate, Long cardNumber, Account account, CardStatus cardStatus) {

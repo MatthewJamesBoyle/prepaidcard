@@ -1,13 +1,14 @@
 package boylem.matt.account.service;
 
 import boylem.matt.account.domain.Card;
+import boylem.matt.account.exception.CardNotFoundException;
 
 public interface CardService {
 
-	Card createCard(Long accId);
+	Card createCard(Long accId) throws CardNotFoundException;
 
-	String freezeCard(Long cardId);
+	Card freezeCard(Long cardId) throws CardNotFoundException;
 
-	String closeCard(Long cardId);
+	Card closeCard(Long cardId) throws CardNotFoundException;
 
 }

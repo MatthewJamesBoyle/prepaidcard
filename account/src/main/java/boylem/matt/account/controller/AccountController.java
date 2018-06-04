@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import boylem.matt.account.dao.AccountDao;
 import boylem.matt.account.domain.Account;
 import boylem.matt.account.domain.Deposit;
+import boylem.matt.account.exception.AccountNotFoundException;
 import boylem.matt.account.service.AccountService;
 
 @RestController
@@ -35,8 +36,9 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/balance", method = RequestMethod.POST)
-	public ResponseEntity<?> postBalance(@Valid @RequestBody Deposit deposit) {
+	public Account postBalance(@Valid @RequestBody Deposit deposit) throws AccountNotFoundException {
 		return accountService.deposit(deposit);
+
 	}
 
 	@RequestMapping(value = "/account/create", method = RequestMethod.POST)

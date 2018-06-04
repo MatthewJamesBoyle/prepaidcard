@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import boylem.matt.account.dao.CardDao;
 import boylem.matt.account.domain.Card;
+import boylem.matt.account.exception.CardNotFoundException;
 import boylem.matt.account.service.AccountService;
 import boylem.matt.account.service.CardService;
 
@@ -28,17 +29,17 @@ public class CardController {
 	private CardDao cardDao;
 
 	@RequestMapping(value = "/card/create/{accountId}", method = RequestMethod.POST)
-	public Card createCard(@PathVariable("accountId") long accountId) {
+	public Card createCard(@PathVariable("accountId") long accountId) throws CardNotFoundException {
 		return cardService.createCard(accountId);
 	}
 
 	@RequestMapping(value = "/card/freeze/{cardId}", method = RequestMethod.POST)
-	public String freezeCard(@RequestParam("cardId") long cardId) {
+	public Card freezeCard(@RequestParam("cardId") long cardId) throws CardNotFoundException {
 		return cardService.freezeCard(cardId);
 	}
 
 	@RequestMapping(value = "/card/close/{cardId}", method = RequestMethod.POST)
-	public String closeCardd(@RequestParam("cardId") long cardId) {
+	public Card closeCard(@RequestParam("cardId") long cardId) throws CardNotFoundException {
 		return cardService.closeCard(cardId);
 	}
 
