@@ -26,4 +26,9 @@ public class MerchantController {
 		return merchantService.create(merchant);
 	}
 
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public Merchant capture(Merchant merchant) throws MerchantCreationException {
+		return merchantService.create(merchant);
+	}
+
 }
