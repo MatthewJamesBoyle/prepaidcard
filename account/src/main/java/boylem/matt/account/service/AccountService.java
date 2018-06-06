@@ -3,11 +3,14 @@ package boylem.matt.account.service;
 import boylem.matt.account.domain.Account;
 import boylem.matt.account.domain.Deposit;
 import boylem.matt.account.exception.AccountNotFoundException;
+import boylem.matt.account.exception.CouldNotCreateAccountException;
 
 public interface AccountService {
 
-	Long getBalance(Long id);
+	Account getBalance(Long id) throws AccountNotFoundException;
 
 	Account deposit(Deposit deposit) throws AccountNotFoundException;
+
+	Account createAccount(Account newAcc) throws CouldNotCreateAccountException;
 
 }

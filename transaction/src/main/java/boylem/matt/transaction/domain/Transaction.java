@@ -22,10 +22,13 @@ public class Transaction {
 	private Long merchantId;
 
 	@Column
-	Long amount;
+	Long transactionAmount;
 
 	@Column
-	private Long transactionType;
+	Long capturedAmount;
+
+	@Column
+	private TransactionType transactionType;
 
 	@Column
 	private TransactionStatus status;
@@ -37,12 +40,37 @@ public class Transaction {
 
 	}
 
-	public Transaction(Long cardId, Long merchantId, Long amount, Long transactionType, TransactionStatus status) {
+	public Transaction(Long id, Long cardId, Long merchantId, Long transactionAmount, Long capturedAmount,
+			TransactionType transactionType, TransactionStatus status, Date timeStamp) {
+		this.id = id;
 		this.cardId = cardId;
 		this.merchantId = merchantId;
-		this.amount = amount;
+		this.transactionAmount = transactionAmount;
+		this.capturedAmount = capturedAmount;
 		this.transactionType = transactionType;
 		this.status = status;
+		this.timeStamp = timeStamp;
+	}
+
+	public Transaction(Long id, Long cardId, Long merchantId, Long transactionAmount, TransactionType transactionType,
+			TransactionStatus status, Date timeStamp) {
+		this.id = id;
+		this.cardId = cardId;
+		this.merchantId = merchantId;
+		this.transactionAmount = transactionAmount;
+		this.transactionType = transactionType;
+		this.status = status;
+		this.timeStamp = timeStamp;
+	}
+
+	public Transaction(Long cardId, Long merchantId, Long transactionAmount, TransactionType transactionType,
+			TransactionStatus status, Date timeStamp) {
+		this.cardId = cardId;
+		this.merchantId = merchantId;
+		this.transactionAmount = transactionAmount;
+		this.transactionType = transactionType;
+		this.status = status;
+		this.timeStamp = timeStamp;
 	}
 
 	public Long getId() {
@@ -69,19 +97,27 @@ public class Transaction {
 		this.merchantId = merchantId;
 	}
 
-	public Long getAmount() {
-		return amount;
+	public Long getTransactionAmount() {
+		return transactionAmount;
 	}
 
-	public void setAmount(Long amount) {
-		this.amount = amount;
+	public void setTransactionAmount(Long transactionAmount) {
+		this.transactionAmount = transactionAmount;
 	}
 
-	public Long getTransactionType() {
+	public Long getCapturedAmount() {
+		return capturedAmount;
+	}
+
+	public void setCapturedAmount(Long capturedAmount) {
+		this.capturedAmount = capturedAmount;
+	}
+
+	public TransactionType getTransactionType() {
 		return transactionType;
 	}
 
-	public void setTransactionType(Long transactionType) {
+	public void setTransactionType(TransactionType transactionType) {
 		this.transactionType = transactionType;
 	}
 

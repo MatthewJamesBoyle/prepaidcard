@@ -8,12 +8,14 @@ import org.springframework.web.context.request.WebRequest;
 
 import boylem.matt.account.exception.AccountNotFoundException;
 import boylem.matt.account.exception.CardNotFoundException;
+import boylem.matt.account.exception.CouldNotCreateAccountException;
 import utils.ErrorType;
 
 @ControllerAdvice
 public class AccountControllerExceptionHandler {
 
-	@ExceptionHandler(value = { AccountNotFoundException.class, CardNotFoundException.class })
+	@ExceptionHandler(value = { AccountNotFoundException.class, CardNotFoundException.class,
+			CouldNotCreateAccountException.class })
 	protected ResponseEntity<ErrorType> handleConflict(Exception ex, WebRequest request) {
 		return new ResponseEntity<ErrorType>(new ErrorType(ex.getMessage()), HttpStatus.NOT_FOUND);
 	}

@@ -21,11 +21,10 @@ public class CardServiceImpl implements CardService {
 	@Autowired
 	CardDao cardDao;
 
-	@Override
-	public Card createCard(Long accId) throws CardNotFoundException {
+	public Card createCard(Long accId) throws AccountNotFoundException {
 		Account account = accountDao.findById(accId);
 		if (account == null) {
-			throw new CardNotFoundException(accId);
+			throw new AccountNotFoundException(accId);
 		}
 		Date expiryDate = new Date();
 		expiryDate.setYear(expiryDate.getYear());
@@ -34,7 +33,6 @@ public class CardServiceImpl implements CardService {
 		return card;
 	}
 
-	@Override
 	public Card freezeCard(Long cardId) throws CardNotFoundException {
 		Card card = cardDao.findOne(cardId);
 		if (card == null) {
@@ -45,7 +43,6 @@ public class CardServiceImpl implements CardService {
 		return card;
 	}
 
-	@Override
 	public Card closeCard(Long cardId) throws CardNotFoundException {
 		Card card = cardDao.findOne(cardId);
 		if (card == null) {

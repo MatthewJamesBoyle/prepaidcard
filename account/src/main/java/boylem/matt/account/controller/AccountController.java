@@ -3,7 +3,6 @@ package boylem.matt.account.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +13,7 @@ import boylem.matt.account.dao.AccountDao;
 import boylem.matt.account.domain.Account;
 import boylem.matt.account.domain.Deposit;
 import boylem.matt.account.exception.AccountNotFoundException;
+import boylem.matt.account.exception.CouldNotCreateAccountException;
 import boylem.matt.account.service.AccountService;
 
 @RestController
@@ -31,7 +31,7 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/balance/{accountNumber}", method = RequestMethod.GET)
-	public Long getBalance(@PathVariable Long accountNumber) {
+	public Account getBalance(@PathVariable Long accountNumber) throws AccountNotFoundException {
 		return accountService.getBalance(accountNumber);
 	}
 
@@ -41,9 +41,9 @@ public class AccountController {
 
 	}
 
-	@RequestMapping(value = "/account/create", method = RequestMethod.POST)
-	public Account createAccount(@Valid @RequestBody Account newAcc) {
-		return accountDao.save(newAcc);
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public Account createAccount(@Valid @RequestBody Account newAcc) throws CouldNotCreateAccountException {
+		return accountService.createAccount(newAcc);
 	}
 
 }

@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Merchant {
@@ -14,9 +15,11 @@ public class Merchant {
 	private Long id;
 
 	@Column
+	@NotNull
 	private String name;
 
 	@Column
+	@NotNull
 	private String address;
 
 	protected Merchant() {

@@ -9,12 +9,15 @@ import boylem.matt.transaction.domain.Card;
 @FeignClient("account")
 public interface AccountClient {
 
-	@RequestMapping("/{id}")
+	@RequestMapping("/card/{id}")
 	public Card findCardById(@PathVariable("id") long id);
 
 	@RequestMapping("/{id}/authorize")
 	public Card authorizePayment(@PathVariable("id") long id);
 
-	public void finalizeTransaction(Long cardId, Long amount);
+	@RequestMapping("/{cardId}/{amount}/finalize")
+	public void finalizeTransaction(@PathVariable("cardId") Long cardId, @PathVariable("amount") Long amount);
 
+	@RequestMapping("/{cardId}/{amount}/updateBalance")
+	public void updateBalance(@PathVariable("cardId") Long cardId, @PathVariable("amount") Long amount);
 }
