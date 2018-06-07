@@ -12,8 +12,8 @@ public interface AccountClient {
 	@RequestMapping("/card/{id}")
 	public Card findCardById(@PathVariable("id") long id);
 
-	@RequestMapping("/{id}/authorize")
-	public Card authorizePayment(@PathVariable("id") long id);
+	@RequestMapping("/{id}/authorize/{amount}")
+	public Card authorizePayment(@PathVariable("id") long id, @PathVariable("amount") long amount);
 
 	@RequestMapping("/card/{cardId}/{amount}/finalize")
 	public void finalizeTransaction(@PathVariable("cardId") Long cardId, @PathVariable("amount") Long amount);

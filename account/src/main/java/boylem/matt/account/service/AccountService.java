@@ -16,4 +16,6 @@ public interface AccountService {
 
 	Account updateBalances(long cardId, long amount) throws AccountNotFoundException;
 
+	Account authorizePayment(long id, long amount) throws AccountNotFoundException;
+
 }

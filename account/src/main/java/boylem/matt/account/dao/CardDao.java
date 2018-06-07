@@ -9,5 +9,4 @@ public interface CardDao extends JpaRepository<Card, Long> {
 
 	public Card findCardById(Long cardId);
 
-	public Account findAccountByCardId(Long cardId);
 }

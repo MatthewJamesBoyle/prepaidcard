@@ -38,8 +38,8 @@ public class TransactionController {
 		return transactionService.create(transaction);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public List<Transaction> getAllTransactions(@PathVariable Long cardId) throws CardNotFoundException {
+	@RequestMapping(value = "/{cardId}", method = RequestMethod.GET)
+	public List<Transaction> getAllTransactions(@PathVariable("cardId") Long cardId) throws CardNotFoundException {
 		return transactionService.getAllTransactions(cardId);
 	}
 

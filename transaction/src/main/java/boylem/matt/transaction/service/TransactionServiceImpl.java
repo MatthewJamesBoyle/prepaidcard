@@ -49,7 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 		//
 		// Update available balance on card to be available balance - amount;
-		Card response = accountClient.authorizePayment(card.getId());
+		Card response = accountClient.authorizePayment(card.getId(), transaction.getTransactionAmount());
 		if (response == null) {
 			throw new TransactionServiceException("failed to create transaction");
 

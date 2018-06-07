@@ -17,6 +17,7 @@ public class MerchantServiceImpl implements MerchantService {
 	MerchantDao merchantDao;
 
 	public Merchant create(Merchant merchant) throws MerchantCreationException {
+		
 		if (merchant == null || merchant.getName() == null || merchant.getAddress() == null) {
 			throw new MerchantCreationException();
 		}

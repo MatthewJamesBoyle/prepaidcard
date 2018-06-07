@@ -14,7 +14,6 @@ import boylem.matt.account.domain.Account;
 import boylem.matt.account.domain.Card;
 import boylem.matt.account.domain.Deposit;
 import boylem.matt.account.exception.AccountNotFoundException;
-import boylem.matt.account.exception.CardNotFoundException;
 import boylem.matt.account.exception.CouldNotCreateAccountException;
 import boylem.matt.account.service.AccountService;
 
@@ -24,8 +23,6 @@ public class AccountController {
 	@Autowired
 	AccountService accountService;
 
-	@Autowired
-	AccountDao accountDao;
 
 	@RequestMapping(value = "/ping", method = RequestMethod.GET)
 	public String ping() {
@@ -52,6 +49,12 @@ public class AccountController {
 	public Account updateBalances(@PathVariable("cardId") long cardId, @PathVariable("amount") long amount)
 			throws AccountNotFoundException {
 		return accountService.updateBalances(cardId, amount);
+	}
+
+	@RequestMapping("/{id}/authorize/{amount}")
+	public Account authorizePayment(@PathVariable("id") long id, @PathVariable("amount") long amount) throws AccountNotFoundException {
+		return accountService.authorizePayment(id, amount);
+
 	}
 
 }
