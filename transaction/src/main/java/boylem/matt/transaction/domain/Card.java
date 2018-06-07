@@ -30,17 +30,6 @@ public class Card {
 
 	private CardStatus cardStatus;
 
-	public Card() {
-	}
-
-	public Card(Date startDate, Date expiryDate, Long cardNumber, Account account, CardStatus cardStatus) {
-		this.startDate = startDate;
-		this.expiryDate = expiryDate;
-		this.cardNumber = cardNumber;
-		this.account = account;
-		this.cardStatus = cardStatus;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -87,6 +76,12 @@ public class Card {
 
 	public void setCardStatus(CardStatus cardStatus) {
 		this.cardStatus = cardStatus;
+	}
+
+	@Override
+	public String toString() {
+		return "Card [id=" + id + ", startDate=" + startDate + ", expiryDate=" + expiryDate + ", cardNumber="
+				+ cardNumber + ", account=" + account + ", cardStatus=" + cardStatus + "]";
 	}
 
 }

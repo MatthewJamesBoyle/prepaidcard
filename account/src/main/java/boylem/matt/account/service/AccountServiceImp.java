@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import boylem.matt.account.dao.AccountDao;
+import boylem.matt.account.dao.CardDao;
 import boylem.matt.account.domain.Account;
+import boylem.matt.account.domain.Card;
 import boylem.matt.account.domain.Deposit;
 import boylem.matt.account.exception.AccountNotFoundException;
 import boylem.matt.account.exception.CouldNotCreateAccountException;
@@ -14,6 +16,9 @@ public class AccountServiceImp implements AccountService {
 
 	@Autowired
 	AccountDao accountDao;
+
+	@Autowired
+	CardDao cardDao;
 
 	public Account getBalance(Long id) throws AccountNotFoundException {
 		Account account = accountDao.findById(id);
@@ -39,9 +44,19 @@ public class AccountServiceImp implements AccountService {
 		if (newAcc == null) {
 			throw new CouldNotCreateAccountException();
 		}
-		newAcc.setAvailableBalance(newAcc.getAvailableBalance());
+		newAcc.setAvailableBalance(newAcc.getBalance());
 		accountDao.save(newAcc);
 		return newAcc;
+	}
+
+	public Account updateBalances(long cardId, long amount) throws AccountNotFoundException {
+		Account account = cardDao.findAccountByCardId(cardId);
+		if (account == null) {
+			throw new AccountNotFoundException(cardId);
+		}
+		account.setAvailableBalance(account.getAvailableBalance() - amount);
+		accountDao.save(account);
+		return account;
 	}
 
 }

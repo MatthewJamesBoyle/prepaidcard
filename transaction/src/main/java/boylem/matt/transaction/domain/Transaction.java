@@ -63,14 +63,22 @@ public class Transaction {
 		this.timeStamp = timeStamp;
 	}
 
-	public Transaction(Long cardId, Long merchantId, Long transactionAmount, TransactionType transactionType,
-			TransactionStatus status, Date timeStamp) {
+	public Transaction(Long cardId, Long merchantId, Long transactionAmount, TransactionStatus status) {
 		this.cardId = cardId;
 		this.merchantId = merchantId;
 		this.transactionAmount = transactionAmount;
-		this.transactionType = transactionType;
 		this.status = status;
-		this.timeStamp = timeStamp;
+	}
+
+	public Transaction(Long cardId, Long merchantId, Long amount, TransactionType transactionType,
+			TransactionStatus transactionStatus, Date date) {
+		this.cardId = cardId;
+		this.merchantId = merchantId;
+		this.capturedAmount = amount;
+		this.transactionType = transactionType;
+		this.status = transactionStatus;
+		this.timeStamp = date;
+
 	}
 
 	public Long getId() {

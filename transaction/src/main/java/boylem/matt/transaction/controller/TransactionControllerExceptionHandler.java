@@ -6,13 +6,20 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+import boylem.matt.transaction.exception.LackOfOwnershipException;
+import boylem.matt.transaction.exception.MerchantException;
+import boylem.matt.transaction.exception.NotCapturableAmountException;
+import boylem.matt.transaction.exception.NotEnoughMoneyException;
+import boylem.matt.transaction.exception.TransactionNotFoundException;
 import boylem.matt.transaction.exception.TransactionServiceException;
 import utils.ErrorType;
 
 @ControllerAdvice
 public class TransactionControllerExceptionHandler {
 
-	@ExceptionHandler(value = TransactionServiceException.class)
+	@ExceptionHandler(value = { TransactionServiceException.class, NotEnoughMoneyException.class,
+			LackOfOwnershipException.class, MerchantException.class, NotCapturableAmountException.class,
+			NotEnoughMoneyException.class, TransactionNotFoundException.class })
 	protected ResponseEntity<ErrorType> handleConflict(TransactionServiceException ex, WebRequest request) {
 		return new ResponseEntity<ErrorType>(new ErrorType(ex.getMessage()), HttpStatus.NOT_FOUND);
 	}

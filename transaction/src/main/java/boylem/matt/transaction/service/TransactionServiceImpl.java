@@ -39,6 +39,7 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 
 		Card card = accountClient.findCardById(transaction.getCardId());
+
 		if (card == null) {
 			throw new CardNotFoundException(transaction.getCardId());
 		}
@@ -46,7 +47,7 @@ public class TransactionServiceImpl implements TransactionService {
 		if (card.getAccount().getAvailableBalance() < transaction.getTransactionAmount()) {
 			throw new NotEnoughMoneyException(transaction.getTransactionAmount());
 		}
-
+		//
 		// Update available balance on card to be available balance - amount;
 		Card response = accountClient.authorizePayment(card.getId());
 		if (response == null) {
