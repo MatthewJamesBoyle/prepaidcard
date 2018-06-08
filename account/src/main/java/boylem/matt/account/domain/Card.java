@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Card {
@@ -23,8 +24,10 @@ public class Card {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column
 	@Temporal(TemporalType.DATE)
+	@NotNull(message = "You must provide an opening balance")
+
 	private Date startDate;
 
 	@Column(nullable = false)

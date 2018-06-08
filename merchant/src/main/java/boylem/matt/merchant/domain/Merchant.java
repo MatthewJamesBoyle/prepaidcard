@@ -15,11 +15,11 @@ public class Merchant {
 	private Long id;
 
 	@Column
-	@NotNull
+	@NotNull(message = "You must provide a business name")
 	private String name;
 
 	@Column
-	@NotNull
+	@NotNull(message = "You must provide an address")
 	private String address;
 
 	protected Merchant() {
