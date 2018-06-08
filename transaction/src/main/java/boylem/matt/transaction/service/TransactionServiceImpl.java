@@ -67,7 +67,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	// TODO: this should only show transactions in CLEARED State.
 	public List<Transaction> getAllTransactions(Long cardId) throws CardNotFoundException {
-		List<Transaction> transactions = transactionDao.findByCardId(cardId);
+		List<Transaction> transactions = transactionDao.findByCardIdWhereCleared(cardId);
 		if (transactions == null) {
 			throw new CardNotFoundException(cardId);
 		}
@@ -87,6 +87,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 		if (toCapture.getStatus() == TransactionStatus.CLEARED) {
 			throw new TransactionServiceException("You can't capture a cleared transaction");
+		}
+
+		if (toCapture.getStatus() != TransactionStatus.BLOCKED) {
+			throw new TransactionServiceException("You can't capture a transaction that is not in the BLOCKED state");
 		}
 
 		// Some service call here to send money to our merchants account... maybe they
@@ -111,6 +115,12 @@ public class TransactionServiceImpl implements TransactionService {
 		if (toCapture.getMerchantId() != merchantId) {
 			throw new LackOfOwnershipException(merchantId, transactionId);
 		}
+
+		if (toCapture.getStatus() != TransactionStatus.BLOCKED) {
+			throw new TransactionServiceException("You can't capture a transaction that is not in the BLOCKED state");
+
+		}
+
 		if (((toCapture.getTransactionAmount() - toCapture.getCapturedAmount()) - amountToCapture) < 0) {
 			throw new NotCapturableAmountException(transactionId,
 					toCapture.getTransactionAmount() - toCapture.getCapturedAmount(), amountToCapture);
