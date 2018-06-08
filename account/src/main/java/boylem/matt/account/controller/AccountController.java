@@ -42,7 +42,7 @@ public class AccountController {
 		return accountService.createAccount(newAcc);
 	}
 
-	@RequestMapping(value = "/card/{cardId}/amount/{amount}/finalize", method = RequestMethod.POST)
+	@RequestMapping(value = "/card/{cardId}/amount/{amount}/finalize", method = RequestMethod.GET)
 	public Account updateBalances(@PathVariable Long cardId, @PathVariable Long amount)
 			throws AccountNotFoundException {
 		return accountService.updateBalances(cardId, amount);

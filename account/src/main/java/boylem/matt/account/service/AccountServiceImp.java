@@ -9,6 +9,7 @@ import boylem.matt.account.domain.Account;
 import boylem.matt.account.domain.Deposit;
 import boylem.matt.account.exception.AccountNotFoundException;
 import boylem.matt.account.exception.CouldNotCreateAccountException;
+
 /**
  * 
  * @author matthew
@@ -16,13 +17,13 @@ import boylem.matt.account.exception.CouldNotCreateAccountException;
  */
 @Service
 public class AccountServiceImp implements AccountService {
-	
+
 	@Autowired
 	AccountDao accountDao;
 
 	@Autowired
 	CardDao cardDao;
-	
+
 	public Account getBalance(Long id) throws AccountNotFoundException {
 		Account account = accountDao.findById(id);
 		if (account == null) {
@@ -52,12 +53,12 @@ public class AccountServiceImp implements AccountService {
 		return newAcc;
 	}
 
-	public Account updateBalances(long cardId, long amount) throws AccountNotFoundException {
+	public Account updateBalances(Long cardId, Long amount) throws AccountNotFoundException {
 		Account account = cardDao.findCardById(cardId).getAccount();
 		if (account == null) {
 			throw new AccountNotFoundException(cardId);
 		}
-		account.setAvailableBalance(account.getAvailableBalance() - amount);
+		account.setBalance(account.getBalance() - amount);
 		accountDao.save(account);
 		return account;
 	}

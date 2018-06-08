@@ -14,7 +14,7 @@ public interface AccountService {
 
 	Account createAccount(Account newAcc) throws CouldNotCreateAccountException;
 
-	Account updateBalances(long cardId, long amount) throws AccountNotFoundException;
+	Account updateBalances(Long cardId, Long amount) throws AccountNotFoundException;
 
 	Account authorizePayment(long id, long amount) throws AccountNotFoundException;
 
