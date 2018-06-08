@@ -98,9 +98,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 		// Clear the trnasaction in full;
 		accountClient.finalizeTransaction(toCapture.getCardId(),
-				toCapture.getCapturedAmount() - toCapture.getCapturedAmount());
+				toCapture.getTransactionAmount() - toCapture.getCapturedAmount());
 		// Set captured amount to total transaction cost;
 		toCapture.setCapturedAmount(toCapture.getTransactionAmount());
+		transactionDao.save(toCapture);
 		return toCapture;
 	}
 
