@@ -140,7 +140,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public Transaction reverseCapture(Merchant merchant, Long transactionId, Long amount)
-			throws TransactionNotFoundException, NotCapturableAmountException, LackOfOwnershipException {
+			throws LackOfOwnershipException, TransactionServiceException {
 		Transaction toReverse = transactionDao.findById(transactionId);
 		if (toReverse == null) {
 			throw new TransactionNotFoundException(transactionId);
@@ -148,6 +148,12 @@ public class TransactionServiceImpl implements TransactionService {
 
 		if (toReverse.getMerchantId() != merchant.getId()) {
 			throw new LackOfOwnershipException(merchant.getId(), transactionId);
+		}
+
+		if (toReverse.getStatus() != TransactionStatus.CLEARED) {
+			throw new TransactionServiceException(
+					"You can't reverse the capture on a transaction that has been cleared. You should issue a refund instead");
+
 		}
 
 		if (toReverse.getCapturedAmount() + amount > toReverse.getTransactionAmount()) {

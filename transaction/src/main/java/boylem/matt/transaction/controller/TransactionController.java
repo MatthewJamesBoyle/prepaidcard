@@ -59,8 +59,7 @@ public class TransactionController {
 
 	@RequestMapping(value = "/reverseCapture/{transactionId}/{amount}", method = RequestMethod.POST)
 	public Transaction reversePartialTransaction(Merchant merchant, @PathVariable Long transactionId,
-			@PathVariable Long amount) throws MerchantException, TransactionNotFoundException, LackOfOwnershipException,
-			NotCapturableAmountException {
+			@PathVariable Long amount) throws MerchantException, LackOfOwnershipException, TransactionServiceException {
 		return transactionService.reverseCapture(merchant, transactionId, amount);
 	}
 

@@ -20,7 +20,7 @@ public interface TransactionService {
 			throws TransactionNotFoundException, LackOfOwnershipException, TransactionServiceException;
 
 	Transaction reverseCapture(Merchant merchant, Long transactionId, Long amount)
-			throws TransactionNotFoundException, NotCapturableAmountException, LackOfOwnershipException;
+			throws TransactionNotFoundException, NotCapturableAmountException, LackOfOwnershipException, TransactionServiceException;
 
 	Transaction refund(Long merchantId, Long transactionId, Long amount) throws TransactionNotFoundException,
 			NotCapturableAmountException, LackOfOwnershipException, TransactionServiceException;
