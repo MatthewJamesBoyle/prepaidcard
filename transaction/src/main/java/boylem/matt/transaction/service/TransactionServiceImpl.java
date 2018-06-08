@@ -65,9 +65,8 @@ public class TransactionServiceImpl implements TransactionService {
 
 	}
 
-	// TODO: this should only show transactions in CLEARED State.
 	public List<Transaction> getAllTransactions(Long cardId) throws CardNotFoundException {
-		List<Transaction> transactions = transactionDao.findByCardIdWhereCleared(cardId);
+		List<Transaction> transactions = transactionDao.findByCardIdAndStatus(cardId, TransactionStatus.CLEARED);
 		if (transactions == null) {
 			throw new CardNotFoundException(cardId);
 		}

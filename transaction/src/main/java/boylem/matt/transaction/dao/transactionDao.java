@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import boylem.matt.transaction.domain.Transaction;
+import boylem.matt.transaction.domain.TransactionStatus;
 
 public interface transactionDao extends JpaRepository<Transaction, Long> {
 
@@ -14,7 +15,6 @@ public interface transactionDao extends JpaRepository<Transaction, Long> {
 
 	List<Transaction> findByCardId(Long cardId);
 
-	@Query("SELECT t FROM Transaction t WHERE status='CLEARED' AND  id = :cardId")
-	public List<Transaction> findByCardIdWhereCleared(@Param("cardId") Long cardId);
+	public List<Transaction> findByCardIdAndStatus(Long cardId, TransactionStatus status);
 
 }

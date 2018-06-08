@@ -9,4 +9,5 @@ spring:
     console:
       enabled: true
       path: /console/
+    
       
