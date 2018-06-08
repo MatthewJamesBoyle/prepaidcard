@@ -17,7 +17,7 @@ public interface TransactionService {
 	List<Transaction> getAllTransactions(Long accountId) throws CardNotFoundException;
 
 	Transaction captureTransaction(Long merchantId, Long transactionId)
-			throws TransactionNotFoundException, LackOfOwnershipException;
+			throws TransactionNotFoundException, LackOfOwnershipException, TransactionServiceException;
 
 	Transaction reverseCapture(Merchant merchant, Long transactionId, Long amount)
 			throws TransactionNotFoundException, NotCapturableAmountException, LackOfOwnershipException;
@@ -26,5 +26,6 @@ public interface TransactionService {
 			NotCapturableAmountException, LackOfOwnershipException, TransactionServiceException;
 
 	Transaction capturePartialTransaction(Long merchantId, Long transactionId, Long amountToCapture)
-			throws TransactionNotFoundException, LackOfOwnershipException, NotCapturableAmountException;
+			throws TransactionNotFoundException, LackOfOwnershipException, NotCapturableAmountException,
+			TransactionServiceException;
 }

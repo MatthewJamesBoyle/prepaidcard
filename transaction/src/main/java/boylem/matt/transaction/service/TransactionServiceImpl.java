@@ -65,7 +65,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	}
 
-	@Override
+	// TODO: this should only show transactions in CLEARED State.
 	public List<Transaction> getAllTransactions(Long cardId) throws CardNotFoundException {
 		List<Transaction> transactions = transactionDao.findByCardId(cardId);
 		if (transactions == null) {
@@ -76,7 +76,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public Transaction captureTransaction(Long merchantId, Long transactionId)
-			throws TransactionNotFoundException, LackOfOwnershipException {
+			throws LackOfOwnershipException, TransactionServiceException {
 		Transaction toCapture = transactionDao.findById(transactionId);
 		if (toCapture == null) {
 			throw new TransactionNotFoundException(transactionId);
@@ -84,10 +84,18 @@ public class TransactionServiceImpl implements TransactionService {
 		if (toCapture.getMerchantId() != merchantId) {
 			throw new LackOfOwnershipException(merchantId, transactionId);
 		}
+
+		if (toCapture.getStatus() == TransactionStatus.CLEARED) {
+			throw new TransactionServiceException("You can't capture a cleared transaction");
+		}
+
 		// Some service call here to send money to our merchants account... maybe they
 		// have a prepaid card too?!
 		toCapture.setStatus(TransactionStatus.CLEARED);
-		accountClient.finalizeTransaction(toCapture.getCardId(), toCapture.getCapturedAmount());
+
+		// Clear the trnasaction in full;
+		accountClient.finalizeTransaction(toCapture.getCardId(),
+				toCapture.getCapturedAmount() - toCapture.getCapturedAmount());
 		// Set captured amount to total transaction cost;
 		toCapture.setCapturedAmount(toCapture.getTransactionAmount());
 		return toCapture;
@@ -95,7 +103,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public Transaction capturePartialTransaction(Long merchantId, Long transactionId, Long amountToCapture)
-			throws TransactionNotFoundException, LackOfOwnershipException, NotCapturableAmountException {
+			throws LackOfOwnershipException, TransactionServiceException {
 		Transaction toCapture = transactionDao.findById(transactionId);
 		if (toCapture == null) {
 			throw new TransactionNotFoundException(transactionId);
@@ -113,7 +121,9 @@ public class TransactionServiceImpl implements TransactionService {
 
 		// if it doesn't clear the transaction, we don't finalize it. Its already
 		// removed from the users available balance and in reality we don't partially
-		// charge people's cards
+		// charge people's cards.
+		toCapture.setCapturedAmount(amountToCapture);
+		transactionDao.save(toCapture);
 
 		return toCapture;
 	}

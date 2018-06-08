@@ -46,14 +46,14 @@ public class TransactionController {
 
 	@RequestMapping(value = "/capture/{transactionId}/merchant/{merchantId}", method = RequestMethod.POST)
 	public Transaction captureTransaction(@PathVariable Long transactionId, @PathVariable Long merchantId)
-			throws MerchantException, TransactionNotFoundException, LackOfOwnershipException {
+			throws MerchantException, LackOfOwnershipException, TransactionServiceException {
 		return transactionService.captureTransaction(merchantId, transactionId);
 	}
 
 	@RequestMapping(value = "/capture/{transactionId}/amount/{amount}/merchant/{merchantId}", method = RequestMethod.POST)
 	public Transaction capturePartialTransaction(Merchant merchant, @PathVariable Long transactionId,
-			@PathVariable Long amount, @PathVariable Long merchantId) throws MerchantException,
-			TransactionNotFoundException, LackOfOwnershipException, NotCapturableAmountException {
+			@PathVariable Long amount, @PathVariable Long merchantId)
+			throws MerchantException, LackOfOwnershipException, TransactionServiceException {
 		return transactionService.capturePartialTransaction(merchantId, transactionId, amount);
 	}
 
