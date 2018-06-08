@@ -132,7 +132,7 @@ public class TransactionServiceImpl implements TransactionService {
 		// if it doesn't clear the transaction, we don't finalize it. Its already
 		// removed from the users available balance and in reality we don't partially
 		// charge people's cards.
-		toCapture.setCapturedAmount(amountToCapture);
+		toCapture.setCapturedAmount(toCapture.getCapturedAmount() + amountToCapture);
 		transactionDao.save(toCapture);
 
 		return toCapture;
