@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import boylem.matt.account.dao.AccountDao;
 import boylem.matt.account.domain.Account;
-import boylem.matt.account.domain.Card;
 import boylem.matt.account.domain.Deposit;
 import boylem.matt.account.exception.AccountNotFoundException;
 import boylem.matt.account.exception.CouldNotCreateAccountException;
@@ -22,7 +20,6 @@ public class AccountController {
 
 	@Autowired
 	AccountService accountService;
-
 
 	@RequestMapping(value = "/ping", method = RequestMethod.GET)
 	public String ping() {
@@ -45,14 +42,15 @@ public class AccountController {
 		return accountService.createAccount(newAcc);
 	}
 
-	@RequestMapping(value = "/{cardId}/{amount}/finalize", method = RequestMethod.POST)
-	public Account updateBalances(@PathVariable("cardId") long cardId, @PathVariable("amount") long amount)
+	@RequestMapping(value = "/card/{cardId}/amount/{amount}/finalize", method = RequestMethod.POST)
+	public Account updateBalances(@PathVariable Long cardId, @PathVariable Long amount)
 			throws AccountNotFoundException {
 		return accountService.updateBalances(cardId, amount);
 	}
 
 	@RequestMapping("/{id}/authorize/{amount}")
-	public Account authorizePayment(@PathVariable("id") long id, @PathVariable("amount") long amount) throws AccountNotFoundException {
+	public Account authorizePayment(@PathVariable("id") long id, @PathVariable("amount") long amount)
+			throws AccountNotFoundException {
 		return accountService.authorizePayment(id, amount);
 
 	}

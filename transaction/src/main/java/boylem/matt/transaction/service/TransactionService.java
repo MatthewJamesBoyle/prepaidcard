@@ -16,15 +16,15 @@ public interface TransactionService {
 
 	List<Transaction> getAllTransactions(Long accountId) throws CardNotFoundException;
 
-	Transaction captureTransaction(Merchant merchant, Long transactionId)
+	Transaction captureTransaction(Long merchantId, Long transactionId)
 			throws TransactionNotFoundException, LackOfOwnershipException;
-
-	Transaction capturePartialTransaction(Merchant merchant, Long transactionId, Long amountToCapture)
-			throws TransactionNotFoundException, LackOfOwnershipException, NotCapturableAmountException;
 
 	Transaction reverseCapture(Merchant merchant, Long transactionId, Long amount)
 			throws TransactionNotFoundException, NotCapturableAmountException, LackOfOwnershipException;
 
-	Transaction refund(Merchant merchant, Long transactionId, Long amount) throws TransactionNotFoundException,
+	Transaction refund(Long merchantId, Long transactionId, Long amount) throws TransactionNotFoundException,
 			NotCapturableAmountException, LackOfOwnershipException, TransactionServiceException;
+
+	Transaction capturePartialTransaction(Long merchantId, Long transactionId, Long amountToCapture)
+			throws TransactionNotFoundException, LackOfOwnershipException, NotCapturableAmountException;
 }

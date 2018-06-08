@@ -55,6 +55,8 @@ public class TransactionServiceImpl implements TransactionService {
 
 		}
 		// create a transaction with status blocked
+		transaction.setCapturedAmount(0L);
+		transaction.setTimeStamp(new Date());
 		transaction.setStatus(TransactionStatus.BLOCKED);
 		transactionDao.save(transaction);
 
@@ -73,14 +75,14 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public Transaction captureTransaction(Merchant merchant, Long transactionId)
+	public Transaction captureTransaction(Long merchantId, Long transactionId)
 			throws TransactionNotFoundException, LackOfOwnershipException {
 		Transaction toCapture = transactionDao.findById(transactionId);
 		if (toCapture == null) {
 			throw new TransactionNotFoundException(transactionId);
 		}
-		if (toCapture.getMerchantId() != merchant.getId()) {
-			throw new LackOfOwnershipException(merchant.getId(), transactionId);
+		if (toCapture.getMerchantId() != merchantId) {
+			throw new LackOfOwnershipException(merchantId, transactionId);
 		}
 		// Some service call here to send money to our merchants account... maybe they
 		// have a prepaid card too?!
@@ -92,21 +94,21 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public Transaction capturePartialTransaction(Merchant merchant, Long transactionId, Long amountToCapture)
+	public Transaction capturePartialTransaction(Long merchantId, Long transactionId, Long amountToCapture)
 			throws TransactionNotFoundException, LackOfOwnershipException, NotCapturableAmountException {
 		Transaction toCapture = transactionDao.findById(transactionId);
 		if (toCapture == null) {
 			throw new TransactionNotFoundException(transactionId);
 		}
-		if (toCapture.getMerchantId() != merchant.getId()) {
-			throw new LackOfOwnershipException(merchant.getId(), transactionId);
+		if (toCapture.getMerchantId() != merchantId) {
+			throw new LackOfOwnershipException(merchantId, transactionId);
 		}
-		if (toCapture.getTransactionAmount() - toCapture.getCapturedAmount() < 0) {
+		if (((toCapture.getTransactionAmount() - toCapture.getCapturedAmount()) - amountToCapture) < 0) {
 			throw new NotCapturableAmountException(transactionId,
 					toCapture.getTransactionAmount() - toCapture.getCapturedAmount(), amountToCapture);
 		}
-		if (toCapture.getTransactionAmount() - toCapture.getCapturedAmount() == 0) {
-			this.captureTransaction(merchant, transactionId);
+		if ((toCapture.getTransactionAmount() - toCapture.getCapturedAmount()) - amountToCapture == 0) {
+			this.captureTransaction(merchantId, transactionId);
 		}
 
 		// if it doesn't clear the transaction, we don't finalize it. Its already
@@ -139,7 +141,7 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public Transaction refund(Merchant merchant, Long transactionId, Long amount)
+	public Transaction refund(Long merchantId, Long transactionId, Long amount)
 			throws LackOfOwnershipException, TransactionServiceException {
 		Transaction toRefund = transactionDao.findById(transactionId);
 
@@ -147,8 +149,8 @@ public class TransactionServiceImpl implements TransactionService {
 			throw new TransactionNotFoundException(transactionId);
 		}
 
-		if (toRefund.getMerchantId() != merchant.getId()) {
-			throw new LackOfOwnershipException(merchant.getId(), transactionId);
+		if (toRefund.getMerchantId() != merchantId) {
+			throw new LackOfOwnershipException(merchantId, transactionId);
 		}
 
 		if (toRefund.getStatus() != TransactionStatus.CLEARED) {

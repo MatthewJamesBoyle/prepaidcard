@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import boylem.matt.transaction.domain.Merchant;
@@ -43,17 +44,17 @@ public class TransactionController {
 		return transactionService.getAllTransactions(cardId);
 	}
 
-	@RequestMapping(value = "/capture/{transactionId}", method = RequestMethod.POST)
-	public Transaction captureTransaction(Merchant merchant, @PathVariable Long transactionId)
+	@RequestMapping(value = "/capture/{transactionId}/merchant/{merchantId}", method = RequestMethod.POST)
+	public Transaction captureTransaction(@PathVariable Long transactionId, @PathVariable Long merchantId)
 			throws MerchantException, TransactionNotFoundException, LackOfOwnershipException {
-		return transactionService.captureTransaction(merchant, transactionId);
+		return transactionService.captureTransaction(merchantId, transactionId);
 	}
 
-	@RequestMapping(value = "/capture/{transactionId}/{amount}", method = RequestMethod.POST)
+	@RequestMapping(value = "/capture/{transactionId}/amount/{amount}/merchant/{merchantId}", method = RequestMethod.POST)
 	public Transaction capturePartialTransaction(Merchant merchant, @PathVariable Long transactionId,
-			@PathVariable Long amount) throws MerchantException, TransactionNotFoundException, LackOfOwnershipException,
-			NotCapturableAmountException {
-		return transactionService.capturePartialTransaction(merchant, transactionId, amount);
+			@PathVariable Long amount, @PathVariable Long merchantId) throws MerchantException,
+			TransactionNotFoundException, LackOfOwnershipException, NotCapturableAmountException {
+		return transactionService.capturePartialTransaction(merchantId, transactionId, amount);
 	}
 
 	@RequestMapping(value = "/reverseCapture/{transactionId}/{amount}", method = RequestMethod.POST)
@@ -63,10 +64,11 @@ public class TransactionController {
 		return transactionService.reverseCapture(merchant, transactionId, amount);
 	}
 
-	@RequestMapping(value = "/refund/{transactionId}/{amount}", method = RequestMethod.POST)
-	public Transaction refundTransaction(Merchant merchant, @PathVariable Long transactionId, @PathVariable Long amount)
+	@RequestMapping(value = "/refund/{transactionId}/{amount}/merchant/{merchantId}", method = RequestMethod.POST)
+	public Transaction refundTransaction(@PathVariable Long transactionId, @PathVariable Long amount,
+			@PathVariable Long merchantId)
 			throws MerchantException, LackOfOwnershipException, TransactionServiceException {
-		return transactionService.refund(merchant, transactionId, amount);
+		return transactionService.refund(merchantId, transactionId, amount);
 	}
 
 }
