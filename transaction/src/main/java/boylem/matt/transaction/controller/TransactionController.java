@@ -9,16 +9,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import boylem.matt.transaction.domain.Merchant;
+import boylem.matt.transaction.domain.Refund;
 import boylem.matt.transaction.domain.Transaction;
 import boylem.matt.transaction.exception.CardNotFoundException;
 import boylem.matt.transaction.exception.LackOfOwnershipException;
 import boylem.matt.transaction.exception.MerchantException;
-import boylem.matt.transaction.exception.NotCapturableAmountException;
-import boylem.matt.transaction.exception.TransactionNotFoundException;
 import boylem.matt.transaction.exception.TransactionServiceException;
 import boylem.matt.transaction.service.TransactionService;
 
@@ -63,11 +61,10 @@ public class TransactionController {
 		return transactionService.reverseCapture(merchant, transactionId, amount);
 	}
 
-	@RequestMapping(value = "/refund/{transactionId}/{amount}/merchant/{merchantId}", method = RequestMethod.POST)
-	public Transaction refundTransaction(@PathVariable Long transactionId, @PathVariable Long amount,
-			@PathVariable Long merchantId)
+	@RequestMapping(value = "/refund", method = RequestMethod.POST)
+	public Transaction refundTransaction(@Valid @RequestBody Refund refund)
 			throws MerchantException, LackOfOwnershipException, TransactionServiceException {
-		return transactionService.refund(merchantId, transactionId, amount);
+		return transactionService.refund(refund);
 	}
 
 }

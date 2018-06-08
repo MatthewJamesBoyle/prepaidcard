@@ -11,6 +11,7 @@ import boylem.matt.transaction.client.MerchantClient;
 import boylem.matt.transaction.dao.transactionDao;
 import boylem.matt.transaction.domain.Card;
 import boylem.matt.transaction.domain.Merchant;
+import boylem.matt.transaction.domain.Refund;
 import boylem.matt.transaction.domain.Transaction;
 import boylem.matt.transaction.domain.TransactionStatus;
 import boylem.matt.transaction.domain.TransactionType;
@@ -167,30 +168,29 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public Transaction refund(Long merchantId, Long transactionId, Long amount)
-			throws LackOfOwnershipException, TransactionServiceException {
-		Transaction toRefund = transactionDao.findById(transactionId);
+	public Transaction refund(Refund refund) throws LackOfOwnershipException, TransactionServiceException {
+		Transaction toRefund = transactionDao.findById(refund.getTransactionId());
 
 		if (toRefund == null) {
-			throw new TransactionNotFoundException(transactionId);
+			throw new TransactionNotFoundException(refund.getTransactionId());
 		}
 
-		if (toRefund.getMerchantId() != merchantId) {
-			throw new LackOfOwnershipException(merchantId, transactionId);
+		if (toRefund.getMerchantId() != refund.getMerchantId()) {
+			throw new LackOfOwnershipException(refund.getMerchantId(), refund.getTransactionId());
 		}
 
 		if (toRefund.getStatus() != TransactionStatus.CLEARED) {
 			throw new TransactionServiceException("You can't refund a transaction that hasn't cleared");
 		}
 
-		if (amount > toRefund.getTransactionAmount()) {
+		if (refund.getAmount() > toRefund.getTransactionAmount()) {
 			throw new TransactionServiceException("You can't refund more than the cost");
 		}
 
-		accountClient.updateBalance(toRefund.getCardId(), amount);
+		accountClient.refund(toRefund.getCardId(), refund.getAmount());
 		toRefund.setStatus(TransactionStatus.REFUNDED);
 		transactionDao.save(toRefund);
-		Transaction refundedT = new Transaction(toRefund.getCardId(), toRefund.getMerchantId(), amount,
+		Transaction refundedT = new Transaction(toRefund.getCardId(), toRefund.getMerchantId(), refund.getAmount(),
 				TransactionType.REFUND, TransactionStatus.CLEARED, new Date());
 		transactionDao.save(refundedT);
 

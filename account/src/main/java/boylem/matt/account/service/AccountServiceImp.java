@@ -12,18 +12,32 @@ import boylem.matt.account.exception.CouldNotCreateAccountException;
 
 /**
  * 
- * @author matthew
+ * @author Matt Boyle
  *
  */
 @Service
 public class AccountServiceImp implements AccountService {
 
 	@Autowired
+	/**
+	 * injected account Dao.
+	 */
 	AccountDao accountDao;
 
 	@Autowired
+	/**
+	 * Injected cardDao.
+	 */
 	CardDao cardDao;
 
+	/**
+	 * get Balance.
+	 * 
+	 * @param id.
+	 *            id of Account.
+	 * @return Account.
+	 * @throws AccountNotFoundException
+	 */
 	public Account getBalance(Long id) throws AccountNotFoundException {
 		Account account = accountDao.findById(id);
 		if (account == null) {
@@ -32,6 +46,13 @@ public class AccountServiceImp implements AccountService {
 		return account;
 	}
 
+	/**
+	 * Deposit into account.
+	 * 
+	 * @param deposit
+	 * @return Account.
+	 * @throws AccountNotFoundException
+	 */
 	public Account deposit(Deposit deposit) throws AccountNotFoundException {
 		Account account = accountDao.findById(deposit.getAccountId());
 		if (account == null) {
@@ -44,6 +65,14 @@ public class AccountServiceImp implements AccountService {
 		return account;
 	}
 
+	/**
+	 * create account.
+	 * 
+	 * @param newAcc
+	 *            account to create.
+	 * @return Account.
+	 * @throws CouldNotCreateAccountException
+	 */
 	public Account createAccount(Account newAcc) throws CouldNotCreateAccountException {
 		if (newAcc == null) {
 			throw new CouldNotCreateAccountException();
@@ -53,7 +82,17 @@ public class AccountServiceImp implements AccountService {
 		return newAcc;
 	}
 
-	public Account updateBalances(Long cardId, Long amount) throws AccountNotFoundException {
+	/**
+	 * increase Balance by amount.
+	 * 
+	 * @param cardId.
+	 *            id of card to update.
+	 * @param amount
+	 *            to update account by.
+	 * @return Account
+	 * @throws AccountNotFoundException
+	 */
+	public Account increaseBalance(Long cardId, Long amount) throws AccountNotFoundException {
 		Account account = cardDao.findCardById(cardId).getAccount();
 		if (account == null) {
 			throw new AccountNotFoundException(cardId);
@@ -63,6 +102,16 @@ public class AccountServiceImp implements AccountService {
 		return account;
 	}
 
+	/**
+	 * authorizePayment.
+	 * 
+	 * @param id
+	 *            id of account to update.
+	 * @param amount
+	 *            to check account has balance for.
+	 * @return Account
+	 * @throws AccountNotFoundException
+	 */
 	public Account authorizePayment(long cardId, long amount) throws AccountNotFoundException {
 		Account account = cardDao.findCardById(cardId).getAccount();
 		if (account == null) {
@@ -72,6 +121,26 @@ public class AccountServiceImp implements AccountService {
 		accountDao.save(account);
 		return account;
 
+	}
+
+	/**
+	 * refund account.
+	 * 
+	 * @param cardId.
+	 *            id of Card to refund.
+	 * @param amount
+	 *            amount to refund.
+	 * @return Account.
+	 * @throws AccountNotFoundException
+	 */
+	public Account refund(Long cardId, Long amount) throws AccountNotFoundException {
+		Account account = cardDao.findCardById(cardId).getAccount();
+		if (account == null) {
+			throw new AccountNotFoundException(cardId);
+		}
+		account.setAvailableBalance(account.getAvailableBalance() + amount);
+		accountDao.save(account);
+		return account;
 	}
 
 }

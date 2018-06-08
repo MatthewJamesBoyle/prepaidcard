@@ -14,13 +14,34 @@ import boylem.matt.account.exception.AccountNotFoundException;
 import boylem.matt.account.exception.CardNotFoundException;
 
 @Service
+/**
+ * CardServiceImpl
+ * 
+ * @author MattBoyle
+ *
+ */
 public class CardServiceImpl implements CardService {
 
 	@Autowired
+	/**
+	 * Injected accountDao
+	 */
 	AccountDao accountDao;
+
 	@Autowired
+	/**
+	 * injectedCardDao;
+	 */
 	CardDao cardDao;
 
+	/**
+	 * create card for accId.
+	 * 
+	 * @param accId.
+	 *            id to link account to.
+	 * @return Card.
+	 * @throws AccountNotFoundException
+	 */
 	public Card createCard(Long accId) throws AccountNotFoundException {
 		Account account = accountDao.findById(accId);
 		if (account == null) {
@@ -33,6 +54,14 @@ public class CardServiceImpl implements CardService {
 		return card;
 	}
 
+	/**
+	 * Update a card to frozen state.
+	 * 
+	 * @param cardId.
+	 *            id of card to freeze.
+	 * @return Card.
+	 * @throws CardNotFoundException
+	 */
 	public Card freezeCard(Long cardId) throws CardNotFoundException {
 		Card card = cardDao.findOne(cardId);
 		if (card == null) {
@@ -43,6 +72,14 @@ public class CardServiceImpl implements CardService {
 		return card;
 	}
 
+	/**
+	 * Update a card to closed stare.
+	 * 
+	 * @param cardId.
+	 *            id of card to close.
+	 * @return Card
+	 * @throws CardNotFoundException
+	 */
 	public Card closeCard(Long cardId) throws CardNotFoundException {
 		Card card = cardDao.findOne(cardId);
 		if (card == null) {

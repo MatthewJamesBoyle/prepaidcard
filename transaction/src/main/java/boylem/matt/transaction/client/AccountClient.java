@@ -19,6 +19,6 @@ public interface AccountClient {
 	@RequestMapping("/card/{cardId}/amount/{amount}/finalize")
 	public Account finalizeTransaction(@PathVariable("cardId") Long cardId, @PathVariable("amount") Long amount);
 
-	@RequestMapping("/{cardId}/{amount}/updateBalance")
-	public void updateBalance(@PathVariable("cardId") Long cardId, @PathVariable("amount") Long amount);
+	@RequestMapping("/refund/{cardId}/{amount}/updateBalance")
+	public void refund(@PathVariable("cardId") Long cardId, @PathVariable("amount") Long amount);
 }
