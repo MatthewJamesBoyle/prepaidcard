@@ -8,6 +8,12 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
+/**
+ * TransactionApplication
+ * 
+ * @author Matt Boyle
+ *
+ */
 public class TransactionApplication {
 
 	public static void main(String[] args) {

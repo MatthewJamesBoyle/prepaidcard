@@ -34,6 +34,13 @@ public class TransactionServiceImpl implements TransactionService {
 	@Autowired
 	transactionDao transactionDao;
 
+	/**
+	 * Create a transaction
+	 * 
+	 * @param transaction
+	 * @return Transaction
+	 * @throws TransactionServiceException
+	 */
 	public Transaction create(Transaction transaction) throws TransactionServiceException {
 		if (transaction == null) {
 			throw new TransactionServiceException("failed to create transaction");
@@ -66,6 +73,13 @@ public class TransactionServiceImpl implements TransactionService {
 
 	}
 
+	/**
+	 * Get all transactions in the CLEARED state.
+	 * 
+	 * @param accountId
+	 * @return List<Transaction>
+	 * @throws CardNotFoundException
+	 */
 	public List<Transaction> getAllTransactions(Long cardId) throws CardNotFoundException {
 		List<Transaction> transactions = transactionDao.findByCardIdAndStatus(cardId, TransactionStatus.CLEARED);
 		if (transactions == null) {
@@ -74,7 +88,18 @@ public class TransactionServiceImpl implements TransactionService {
 		return transactions;
 	}
 
-	@Override
+	/**
+	 * Capture a transaction
+	 * 
+	 * @param merchantId
+	 * @param transactionId
+	 * 
+	 * @return Transaction
+	 * 
+	 * @throws TransactionNotFoundException
+	 * @throws LackOfOwnershipException
+	 * @throws TransactionServiceException
+	 */
 	public Transaction captureTransaction(Long merchantId, Long transactionId)
 			throws LackOfOwnershipException, TransactionServiceException {
 		Transaction toCapture = transactionDao.findById(transactionId);
@@ -106,7 +131,20 @@ public class TransactionServiceImpl implements TransactionService {
 		return toCapture;
 	}
 
-	@Override
+	/**
+	 * Partially capture a transaction
+	 * 
+	 * @param merchantId
+	 * @param transactionId
+	 * @param amountToCapture
+	 * 
+	 * @return Transaction
+	 * 
+	 * @throws TransactionNotFoundException
+	 * @throws LackOfOwnershipException
+	 * @throws NotCapturableAmountException
+	 * @throws TransactionServiceException
+	 */
 	public Transaction capturePartialTransaction(Long merchantId, Long transactionId, Long amountToCapture)
 			throws LackOfOwnershipException, TransactionServiceException {
 		Transaction toCapture = transactionDao.findById(transactionId);
@@ -139,7 +177,18 @@ public class TransactionServiceImpl implements TransactionService {
 		return toCapture;
 	}
 
-	@Override
+	/**
+	 * Reverse a capture.
+	 * 
+	 * @param merchant
+	 * @param transactionId
+	 * @param amount
+	 * @return
+	 * @throws TransactionNotFoundException
+	 * @throws NotCapturableAmountException
+	 * @throws LackOfOwnershipException
+	 * @throws TransactionServiceException
+	 */
 	public Transaction reverseCapture(Merchant merchant, Long transactionId, Long amount)
 			throws LackOfOwnershipException, TransactionServiceException {
 		Transaction toReverse = transactionDao.findById(transactionId);
@@ -167,7 +216,18 @@ public class TransactionServiceImpl implements TransactionService {
 		return toReverse;
 	}
 
-	@Override
+	/**
+	 * Refund a transaction
+	 * 
+	 * @param refund
+	 * 
+	 * @return Transaction
+	 * 
+	 * @throws TransactionNotFoundException
+	 * @throws NotCapturableAmountException
+	 * @throws LackOfOwnershipException
+	 * @throws TransactionServiceException
+	 */
 	public Transaction refund(Refund refund) throws LackOfOwnershipException, TransactionServiceException {
 		Transaction toRefund = transactionDao.findById(refund.getTransactionId());
 

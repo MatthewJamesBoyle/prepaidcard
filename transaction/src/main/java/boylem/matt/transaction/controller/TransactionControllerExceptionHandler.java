@@ -15,12 +15,25 @@ import boylem.matt.transaction.exception.TransactionServiceException;
 import utils.ErrorType;
 
 @ControllerAdvice
+/**
+ * ControllerAdvice for Transaction service.
+ * 
+ * @author Matt Boyle
+ *
+ */
 public class TransactionControllerExceptionHandler {
 
 	@ExceptionHandler(value = { TransactionServiceException.class, NotEnoughMoneyException.class,
 			LackOfOwnershipException.class, MerchantException.class, NotCapturableAmountException.class,
 			NotEnoughMoneyException.class, TransactionNotFoundException.class })
-	protected ResponseEntity<ErrorType> handleConflict(TransactionServiceException ex, WebRequest request) {
+	/**
+	 * Handles named Exceptions for Transaction service.
+	 * 
+	 * @param ex
+	 * @param request
+	 * @return ResponseEntity<ErrorType>
+	 */
+	protected ResponseEntity<ErrorType> handleExceptions(TransactionServiceException ex, WebRequest request) {
 		return new ResponseEntity<ErrorType>(new ErrorType(ex.getMessage()), HttpStatus.NOT_FOUND);
 	}
 }
