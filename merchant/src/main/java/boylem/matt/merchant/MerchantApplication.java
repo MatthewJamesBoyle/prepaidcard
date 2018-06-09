@@ -6,6 +6,12 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+/**
+ * MerchantApplication
+ * 
+ * @author Matt Boyle
+ *
+ */
 public class MerchantApplication {
 
 	public static void main(String[] args) {

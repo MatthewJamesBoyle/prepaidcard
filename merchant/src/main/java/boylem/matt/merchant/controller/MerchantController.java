@@ -13,18 +13,39 @@ import boylem.matt.merchant.exception.MerchantCreationException;
 import boylem.matt.merchant.service.MerchantService;
 
 @RestController
+/**
+ * Merchant Rest Controller
+ * 
+ * @author Matt Boyle
+ *
+ */
 public class MerchantController {
 
 	@Autowired
+	/**
+	 * Injected merchant service.
+	 */
 	MerchantService merchantService;
 
 	@RequestMapping(value = "/ping", method = RequestMethod.GET)
+	/**
+	 * Basic health check endpoint.
+	 * 
+	 * @return String "pong"
+	 */
 	public String ping() {
 		return "pong";
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public Merchant createTransaction(@Valid @RequestBody Merchant merchant) throws MerchantCreationException {
+	/**
+	 * create Merchant.
+	 * 
+	 * @param merchant
+	 * @return Merchant
+	 * @throws MerchantCreationException
+	 */
+	public Merchant createMerchant(@Valid @RequestBody Merchant merchant) throws MerchantCreationException {
 		return merchantService.create(merchant);
 	}
 }
