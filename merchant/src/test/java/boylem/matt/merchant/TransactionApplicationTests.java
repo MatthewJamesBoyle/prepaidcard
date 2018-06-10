@@ -1,4 +1,4 @@
-package boylem.matt.account;
+package boylem.matt.merchant;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
