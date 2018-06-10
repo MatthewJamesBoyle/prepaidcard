@@ -100,6 +100,25 @@ public class Card {
 	}
 
 	/**
+	 * Card Constructor
+	 * 
+	 * @param id
+	 * @param startDate
+	 * @param expiryDate
+	 * @param cardNumber
+	 * @param account
+	 * @param cardStatus
+	 */
+	public Card(Long id, Date startDate, Date expiryDate, Long cardNumber, Account account, CardStatus cardStatus) {
+		this.id = id;
+		this.startDate = startDate;
+		this.expiryDate = expiryDate;
+		this.cardNumber = cardNumber;
+		this.account = account;
+		this.cardStatus = cardStatus;
+	}
+
+	/**
 	 * get id
 	 * 
 	 * @return Long id.

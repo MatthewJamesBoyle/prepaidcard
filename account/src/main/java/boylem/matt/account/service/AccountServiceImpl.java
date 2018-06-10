@@ -16,7 +16,7 @@ import boylem.matt.account.exception.CouldNotCreateAccountException;
  *
  */
 @Service
-public class AccountServiceImp implements AccountService {
+public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	/**
@@ -58,8 +58,7 @@ public class AccountServiceImp implements AccountService {
 		if (account == null) {
 			throw new AccountNotFoundException(deposit.getAccountId());
 		}
-		long newBalance = deposit.getDepositAmount() + account.getBalance();
-		account.setBalance(newBalance);
+		account.setBalance(deposit.getDepositAmount() + account.getBalance());
 		account.setAvailableBalance(account.getAvailableBalance() + deposit.getDepositAmount());
 		accountDao.save(account);
 		return account;
@@ -83,7 +82,7 @@ public class AccountServiceImp implements AccountService {
 	}
 
 	/**
-	 * increase Balance by amount.
+	 * decrease Balance by amount.
 	 * 
 	 * @param cardId.
 	 *            id of card to update.
@@ -92,7 +91,7 @@ public class AccountServiceImp implements AccountService {
 	 * @return Account
 	 * @throws AccountNotFoundException
 	 */
-	public Account increaseBalance(Long cardId, Long amount) throws AccountNotFoundException {
+	public Account decreaseBalance(Long cardId, Long amount) throws AccountNotFoundException {
 		Account account = cardDao.findCardById(cardId).getAccount();
 		if (account == null) {
 			throw new AccountNotFoundException(cardId);

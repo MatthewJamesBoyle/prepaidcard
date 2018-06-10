@@ -85,7 +85,7 @@ public class AccountController {
 
 	@RequestMapping(value = "/card/{cardId}/amount/{amount}/finalize", method = RequestMethod.GET)
 	/**
-	 * Increases a users balance by amount.
+	 * Decreases a users balance by amount.
 	 * 
 	 * @param cardId
 	 *            card belonging to account.
@@ -97,7 +97,7 @@ public class AccountController {
 	 */
 	public Account updateBalances(@PathVariable Long cardId, @PathVariable Long amount)
 			throws AccountNotFoundException {
-		return accountService.increaseBalance(cardId, amount);
+		return accountService.decreaseBalance(cardId, amount);
 	}
 
 	@RequestMapping("/{id}/authorize/{amount}")

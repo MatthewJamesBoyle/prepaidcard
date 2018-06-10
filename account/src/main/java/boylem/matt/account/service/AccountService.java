@@ -53,7 +53,7 @@ public interface AccountService {
 	 * @return Account
 	 * @throws AccountNotFoundException
 	 */
-	Account increaseBalance(Long cardId, Long amount) throws AccountNotFoundException;
+	Account decreaseBalance(Long cardId, Long amount) throws AccountNotFoundException;
 
 	/**
 	 * authorizePayment.

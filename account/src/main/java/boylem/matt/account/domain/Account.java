@@ -52,7 +52,7 @@ public class Account {
 	/**
 	 * Empty constructor. Keep for Spring.
 	 */
-	protected Account() {
+	public Account() {
 
 	}
 
@@ -70,7 +70,7 @@ public class Account {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.balance = balance;
-		this.availableBalance = 0L;
+		this.availableBalance = this.balance;
 	}
 
 	/**
