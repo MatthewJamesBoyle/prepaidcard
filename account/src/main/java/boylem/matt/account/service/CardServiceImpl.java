@@ -63,7 +63,7 @@ public class CardServiceImpl implements CardService {
 	 * @throws CardNotFoundException
 	 */
 	public Card freezeCard(Long cardId) throws CardNotFoundException {
-		Card card = cardDao.findOne(cardId);
+		Card card = cardDao.findCardById(cardId);
 		if (card == null) {
 			throw new CardNotFoundException(cardId);
 		}
@@ -81,7 +81,7 @@ public class CardServiceImpl implements CardService {
 	 * @throws CardNotFoundException
 	 */
 	public Card closeCard(Long cardId) throws CardNotFoundException {
-		Card card = cardDao.findOne(cardId);
+		Card card = cardDao.findCardById(cardId);
 		if (card == null) {
 			throw new CardNotFoundException(cardId);
 		}
